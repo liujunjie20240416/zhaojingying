@@ -5,6 +5,9 @@ import HomepageIcon from "@/components/navbar/icons/HomepageIcon.vue";
 import FriendIcon from "@/components/navbar/icons/FriendIcon.vue";
 import CreateIcon from "@/components/navbar/icons/CreateIcon.vue";
 import SearchIcon from "@/components/navbar/icons/SearchIcon.vue";
+import {useUserStore} from "@/stores/user.js";
+import UserMenu from "@/components/navbar/UserMenu.vue";
+const user=useUserStore()
 </script>
 
 <template>
@@ -18,20 +21,22 @@ import SearchIcon from "@/components/navbar/icons/SearchIcon.vue";
         <!-- Sidebar toggle icon -->
         <MenuIcon/>
       </label>
-      <div class="px-2 font-bold whitespace-nowrap" >AI Friends</div>
+      <div class="px-2 font-bold text-xl" >AI Friends</div>
       </div>
       <div class="navbar-center w-4/5 max-w-180 flex justify-center">
         <div class="join w-4/5 flex justify-center">
           <input class="input join-item rounded-l-full w-4/5" placeholder="搜索你感兴趣的内容" />
-          <button class="btn join-item rounded-r-full">
+          <button class="btn join-item rounded-r-full gap-0">
             <SearchIcon />搜索
           </button>
         </div>
 
       </div>
 
-      <div class="navbar-end">
-      <RouterLink :to="{name:'user-account-login-index'}" active-class="btn-active" class="btn btn-ghost text-lg">登录</RouterLink>
+      <div class="navbar-end ">
+        <RouterLink v-if="user.isLogin()" :to="{name:'create-index'}" active-class="btn-active" class="btn btn-ghost text-base mr-6"><CreateIcon />创作</RouterLink>
+      <RouterLink  v-if="!user.isLogin()" :to="{name:'user-account-login-index'}" active-class="btn-active" class="btn btn-ghost text-lg">登录</RouterLink>
+      <UserMenu  v-else/>
       </div>
 
     </nav>
