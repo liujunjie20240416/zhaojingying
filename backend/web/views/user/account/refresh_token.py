@@ -12,7 +12,7 @@ class RefreshTokenView(APIView):
                     'result':'refresh_token不存在'
                 },status=401)
             refresh = RefreshToken(refresh_token)
-            if settings.SIMPLE_JWT['ROTATE_TOKEN_LIFETIME']:
+            if settings.SIMPLE_JWT['ROTATE_REFRESH_TOKENS']:
                 refresh.set_jti()
                 response = Response({
                     'result':'success',

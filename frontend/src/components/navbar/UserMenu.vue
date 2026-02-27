@@ -3,6 +3,7 @@ import {useUserStore} from "@/stores/user.js";
 import UserSpaceIcon from "@/components/navbar/icons/UserSpaceIcon.vue";
 import UserLogoutIcon from "@/components/navbar/icons/UserLogoutIcon.vue";
 import api from "@/js/http/api.js";
+import router from "@/router/index.js";
 
 const user=useUserStore()
 function closeMenu() {
@@ -19,7 +20,7 @@ async function handleLogout(){
       })
     }
   }catch(err){
-    console.log(err)
+
   }
 }
 

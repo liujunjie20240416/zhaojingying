@@ -39,7 +39,7 @@ async function handleRegister(){
       }
 
     }catch(err){
-      console.log(err)
+
     }
   }
 }
