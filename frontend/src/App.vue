@@ -12,7 +12,7 @@ const router = useRouter()
 
 onMounted(async ()=>{
   try {
-    const res = await api.get('/api/user/account/get_user_info')
+    const res = await api.get('/api/user/account/get_user_info/')
     const data = res.data
 
     if(data.result ==='success'){
@@ -22,7 +22,7 @@ onMounted(async ()=>{
 
   }finally{
     user.setHasPulledUserInfo(true)
-    if(route.meta.needLogin &&!user.isLogin()){
+    if(route.meta.needLogin && !user.isLogin()){
       await router.replace({
         name:'user-account-login-index'
       })
