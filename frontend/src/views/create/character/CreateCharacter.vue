@@ -38,7 +38,7 @@ async function handleCreate(){
     formData.append('name',name)
     formData.append('profile',profile)
     formData.append('photo',base64ToFile(photo,'photo.jpg'))
-    formData.append('background_image',base64ToFile(backgroundImage,'background_image_jpg'))
+    formData.append('background_image',base64ToFile(backgroundImage,'background_image.jpg'))
 
     try{
       const res = await api.post('/api/create/character/create/',formData)
@@ -54,7 +54,7 @@ async function handleCreate(){
         errorMessage.value=data.result
       }
     }catch(err){
-      console.log(err)
+
     }
   }
 

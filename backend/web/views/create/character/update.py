@@ -10,14 +10,14 @@ from web.views.utils.photo import remove_old_photo
 
 class UpdateCharacterView(APIView):
     permission_classes = [IsAuthenticated]
-    def post(self, request, *args):
+    def post(self, request):
         try:
             character_id = request.data['character_id']
-            character = Character.objects.get(id=character_id,author_user = request.user)
+            character = Character.objects.get(id=character_id,author__user = request.user)
             name = request.data.get('name').strip()
             profile = request.data.get('profile').strip()[:100000]
             photo = request.FILES.get('photo',None)
-            background_image = request.FILES.get('background',None)
+            background_image = request.FILES.get('background_image',None)
 
             if not name:
                 return Response({
