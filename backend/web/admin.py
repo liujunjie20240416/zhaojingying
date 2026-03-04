@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from web.models.friend import Friend
 # Register your models here.
 from web.models.user import UserProfile
 from web.models.character import Character
@@ -11,3 +12,8 @@ class UserProfileAdmin(admin.ModelAdmin):
 @admin.register(Character)
 class CharacterAdmin(admin.ModelAdmin):
     raw_id_fields = ('author',)
+
+@admin.register(Friend)
+class FriendAdmin(admin.ModelAdmin):
+    raw_id_fields = ('me','character',)
+
