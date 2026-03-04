@@ -10,6 +10,8 @@ const emit = defineEmits(['remove'])
 const isHover = ref(false)
 const user=useUserStore()
 
+
+
 async function handleRemoveCharacter(){
   try{
     const res = await api.post('/api/create/character/remove/',{

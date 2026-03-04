@@ -38,7 +38,7 @@ async function loadMore(){
       newCharacters=data.characters
     }
   }catch(err){
-    console.log(err)
+
   }finally{
     isLoading.value=false
     if(newCharacters.length===0){
