@@ -7,7 +7,7 @@ from web.models.friend import Friend
 from web.models.user import UserProfile
 
 
-class GetOrCreateView(APIView):
+class GetOrCreateFriendView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
         try:
@@ -19,8 +19,8 @@ class GetOrCreateView(APIView):
                 friend = friends.first()
             else:
                 friend = Friend.objects.create(character_id=character_id,me=user_profile)
-                character = friend.character
-                author = character.author
+            character = friend.character
+            author = character.author
             return  Response({
                 'result':'success',
                 'friend':{

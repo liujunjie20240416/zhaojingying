@@ -18,7 +18,9 @@ class GetFriendListView(APIView):
                 character = friend.character
                 author = character.author
                 friends.append({
-                    'id': character.id,
+                    'id': friend.id,
+                    'character':{
+                    'id':character.id,
                     'name': character.name,
                     'profile': character.profile,
                     'photo': character.photo.url,
@@ -27,6 +29,7 @@ class GetFriendListView(APIView):
                         'user_id':author.user_id,
                         'username':author.user.username,
                         'photo':author.photo.url,
+                    }
                     }
                 })
             return  Response({
