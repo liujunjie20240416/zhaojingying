@@ -9,6 +9,9 @@ from rest_framework.permissions import IsAuthenticated
 
 from web.models.friend import Friend, Message, SystemPrompt
 from web.views.friend.message.chat.graph import ChatGraph
+from web.views.friend.message.memory.update import update_memory
+
+
 class SSERenderer(BaseRenderer):
     media_type = 'text/event-stream'
     format = 'txt'
@@ -84,8 +87,8 @@ class MessageChatView(APIView):
                 output_tokens=output_tokens,
                 input_tokens = input_tokens,
             )
-
-
+            if Message.objects.filter(friend=friend).count()%1==0:
+                update_memory(friend)
 
         response = StreamingHttpResponse(event_stream(), content_type="text/event-stream")
         response['Cache-Control'] = 'no-cache'
