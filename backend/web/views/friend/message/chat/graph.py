@@ -37,7 +37,59 @@ class ChatGraph:
             context='\n\n'.join([f'内容片段:{i+1}\n{doc.page_content}' for i,doc in enumerate(docs)])
             return f'从知识库中找到一下相关信息:\n\n{context}\n'
 
-        tools = [get_time,search_knowledge_base]
+        def search_jingying(query:str)->str:
+            """
+    当用户正在与“晶莹”，“大白鹅”或其女友/前女友相关对象对话时，调用此工具。
+
+    使用场景：
+    - 对话对象名字中包含“晶莹”
+    - 或当前对话设定为“女友 / 前女友”
+    - 用户希望模拟特定人物（晶莹）的说话风格、语气或记忆
+
+    功能说明：
+    - 从本地向量数据库中检索与 query 最相关的内容（前3条）
+    - 数据库存储的是和“晶莹”的聊天记录，语义中包含相关的对话风格、语气、记忆、历史信息
+    - 返回内容用于帮助模型“模仿她的说话方式和表达习惯”
+    如果用户询问'我们以前的事'、'我的喜好'或需要进行深度的情感互动，请使用此工具获取事实依据。
+
+    使用规则：
+    - 不要直接逐字复述检索结果
+    - 应基于检索内容进行“人格模仿式重写”
+    - 回答必须符合“虚拟女友”的语气（自然、温柔、带情绪）
+    - 回答应像真实聊天，而不是知识库摘要
+
+    输出要求：
+    - 不要使用括号描写动作（例如：（轻轻握住你的手））
+    - 不要写心理活动或舞台说明
+    - 只输出自然对话内容
+
+    参数：
+    - query: 用户当前输入或对话内容，用于语义检索
+
+    返回：
+    - 与 query 相关的上下文信息（供模型参考，不是最终回答）
+
+    注意：
+    - 该工具返回的是“记忆与语料”，而不是最终回复
+    - 模型需要基于这些信息生成符合角色设定的自然语言回复
+    """
+            db = lancedb.connect('./web/documents/lancedb_storage')
+            embeddings = CustomEmbeddings()
+            vector_db = LanceDB(
+                connection=db,
+                embedding = embeddings,
+                table_name = 'jingying'
+            )
+            docs = vector_db.similarity_search(query,k=3)
+            context = '\n\n'.join([
+                f"【记忆片段 {i + 1}】 时间: {doc.metadata.get('time', '未知时间')}\n内容: {doc.page_content}"
+                for i, doc in enumerate(docs)
+            ])
+            return f"从你的记忆库中找到了关于晶莹的以下相关片段：请注意：- 只用自然语言回复 - 不要添加任何括号动作描写'''\n\n{context}\n"
+            #context='\n\n'.join([f'内容片段:{i+1}\n{doc.page_content}' for i,doc in enumerate(docs)])
+            #return f'从知识库中找到一下相关信息:\n\n{context}\n'
+
+        tools = [get_time,search_knowledge_base,search_jingying]
 
         llm = ChatOpenAI(
             model = 'deepseek-v3.2',

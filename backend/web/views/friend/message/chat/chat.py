@@ -145,7 +145,7 @@ class MessageChatView(APIView):
                     "model": "cosyvoice-v3-flash",
                     "parameters": {
                         "text_type": "PlainText",
-                        "voice": "longanyang",  # 音色
+                        "voice": "longfeifei_v3",  # 音色
                         "format": "mp3",  # 音频格式
                         "sample_rate": 22050,  # 采样率
                         "volume": 50,  # 音量
